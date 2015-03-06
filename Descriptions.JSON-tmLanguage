@@ -1,0 +1,64 @@
+{
+	"name": "Fortify Description",
+	"scopeName": "description.xml.rulepack",
+	"fileTypes": ["xml"],
+    "patterns": [
+        {
+        	"comment": "cdata",
+            "begin": "(\\<\\!\\[CDATA\\[)",
+            "end": "(]]>)",
+            "captures": {
+                "1": {
+                    "name": "variable.other.inline-data.html"
+                }
+            },
+            "patterns": [
+            	{
+            		"comment": "code",
+            	    "match": "<(code)>(.*?)</(code)>",
+            	    "captures": {
+            	        "1": {"name": "meta.tag.xml"},
+            	        "2": {"name": "entity.other.attribute-name"},
+            	        "3": {"name": "meta.tag.xml"}
+            	    }
+            	},
+            	{
+            		"comment": "bold",
+            	    "match": "<(b)>(.*?)</(b)>",
+            	    "captures": {
+            	        "1": {"name": "meta.tag.xml"},
+            	        "2": {"name": "keyword.other.inline-data.html"},
+            	        "3": {"name": "meta.tag.xml"}
+            	    }
+            	},
+            	{
+            		"comment": "pre",
+					"begin": "<(pre)>",
+					"beginCaptures": {
+					  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+					},
+					"end" : "</(pre)>",
+					"endCaptures": {
+					  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+					},
+					"patterns": [
+						{
+							"match": "(.*?)",
+						    "name": "variable.other.inline-data.html",
+						    "captures": {
+						        "1": {"name": "variable.other.inline-data.html"}
+						    }
+						}
+					]
+            	},
+            	{
+            	    "include": "text.xml"
+            	}
+            ]
+        },
+        {
+            "include": "text.xml"
+        }
+    ],
+    "uuid": "17994EC8-6B1D-11D9-AC3A-000D93589AF6"
+}

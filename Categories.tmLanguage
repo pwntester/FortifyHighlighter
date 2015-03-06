@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>csv</string>
+	</array>
+	<key>name</key>
+	<string>Fortify Categories</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.structural</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Field</string>
+			<key>match</key>
+			<string>^(.*):</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.categories</string>
+	<key>uuid</key>
+	<string>0c84615b-ea12-4fcd-827d-8a4fde83053c</string>
+</dict>
+</plist>

@@ -1,0 +1,118 @@
+{ "name": "Fortify Structural",
+  "scopeName": "source.structural",
+  "fileTypes": ["structural"],
+  "patterns": [
+    {
+        "include": "#comment1"
+    },
+    {
+        "include": "#comment2"
+    },
+    { "comment": "RegExp",
+      "begin": " (matches) \"",
+      "beginCaptures": {
+          "1": { "name": "keyword.structural" }
+      },
+      "end" : "\"",
+      "contentName": "source.regexp",
+      "patterns": [
+        {
+          "include": "source.regexp"
+        }
+      ]
+    },
+    { "comment": "RegExp",
+      "begin": " matches '",
+      "beginCaptures": {
+          "1": { "name": "keyword.structural" }
+      },
+      "end" : "'",
+      "contentName": "source.regexp",
+      "patterns": [
+        {
+          "include": "source.regexp"
+        }
+      ]
+    },
+    {
+        "match": "(\\w+)\\s*([A-Za-z0-9]*):",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "variable.other.structural"}
+        }
+    },
+    {
+        "include": "#doublequotedString"
+    },
+    {
+        "include": "#singlequotedString"
+    },
+    {
+        "include": "#keyword"
+    }
+  ],
+  "repository": {
+    "comment1": {
+        "begin": "/\\*",
+        "end": "\\*/",
+        "name": "comment",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "comment"
+            }
+        ]
+    },
+    "comment2": {
+        "match": "[\\s]*\/\/.*",
+        "name" : "comment"
+    },
+    "keyword": {
+        "match": "\\s+(!=|==|===|matches|in|is|contains|reachedBy|not|and|or|>|<|!)\\s+",
+        "name": "keyword.structural"
+    },
+    "doublequotedString": {
+        "begin": "\"",
+        "beginCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.begin.structural"
+            }
+        },
+        "end": "\"",
+        "endCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.end.structural"
+            }
+        },
+        "name": "string.quoted.double.structural",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "string"
+            }
+        ]
+    },
+    "singlequotedString": {
+        "begin": "'",
+        "beginCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.begin.structural"
+            }
+        },
+        "end": "'",
+        "endCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.end.structural"
+            }
+        },
+        "name": "string.quoted.single.structural",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "string"
+            }
+        ]
+    }
+  },
+  "uuid": "0c84615b-ed7c-4fcd-827d-8a4fde83053c"
+}

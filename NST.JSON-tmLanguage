@@ -1,0 +1,224 @@
+{ "name": "Fortify NST",
+  "scopeName": "source.nst",
+  "fileTypes": ["nst"],
+  "patterns": [
+    {
+  	  "comment": "Line",
+      "match": "(#source-(line|file|type))\\s+(.*)$",
+      "captures": {
+      	"1": {"name": "text.html.markdown.gfm meta.block-level.markdown markup.heading.markdown entity.name.section.markdown"},
+        "2": {"name": "text.html.markdown.gfm meta.block-level.markdown markup.heading.markdown entity.name.section.markdown"},
+        "3": {"name": "support.type.structural"}
+      }
+    },
+    {
+      "comment": "Line",
+      "match": "(#NO-SOURCE-INF.*)\\s+",
+      "captures": {
+        "1": {"name": "text.html.markdown.gfm meta.block-level.markdown markup.heading.markdown entity.name.section.markdown"}
+      }
+    },
+    {
+      "comment": "class",
+      "match": "(:)(class)(:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"},
+        "2": {"name": "storage.type.class.nst"},
+        "3": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "null",
+      "match": "(:)(null)(:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"},
+        "2": {"name": "constant.nst"},
+        "3": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "keywords",
+      "match": "(:)(abstract|annotation|anytype|boolean|break|byte|char|const|double|else|enum|environment|module|exceptions|extends|extern|false|final|float|goto|if|implements|inline|int|interface|long|NaN|native|new|null|private|protected|public|ref|remote|return|serializable|short|signed|static|strictfp|synchronized|synthetic|throw|transient|true|union|unsigned|virtual|void|volatile|while)(:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"},
+        "2": {"name": "support.type.nst"},
+        "3": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "Scopes",
+      "match": "\\s(~environment|~parent~|~locals~)",
+      "captures": {
+        "1": {"name": "variable.other.structural.nst"}
+      }
+    },
+    {
+      "comment": "sql keywords",
+      "match": "(:)(sql:varchar|sql:varchar2|sql:number|sql:natural|sql:real|sql:date|sql:binary_integer|sql:cursor|sql:raw|sql:long raw|sql:decimal|sql:blob|sql:clob|sql:nclob|sql:bfile|sql:long|sql:nchar|sql:nvarchar2|sql:timestamp|sql:interval year|sql:interval day|sql:rowid|sql:urowid)(:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"},
+        "2": {"name": "support.type.nst"},
+        "3": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "smthg :*: smthg ",
+      "match": "\\s+([^\\s<]+)\\s+(:)(\\*)(:)\\s+([^\\s>]+)\\s+",
+      "captures": {
+        "1": {"name": "variable.other.structural.nst"},
+        "2": {"name": "keyword.operator.nst"},
+        "3": {"name": "support.type.nst"},
+        "4": {"name": "keyword.operator.nst"},
+        "5": {"name": "variable.other.structural.nst"}
+      }
+    },
+    {
+      "comment": "[ test078~module ]",
+      "match": "(\\[)\\s+([^\\s]+)\\s+(\\])",
+      "captures": {
+        "1": {"name": "support.type.nst"},
+        "2": {"name": "variable.other.structural.nst"},
+        "3": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "< str :*: >",
+      "match": "(<)\\s+([^\\s]+)\\s+(:)(\\*)(:)\\s+(>)",
+      "captures": {
+        "1": {"name": "support.type.nst"},
+        "2": {"name": "variable.other.structural.nst"},
+        "3": {"name": "keyword.operator.nst"},
+        "4": {"name": "support.type.nst"},
+        "5": {"name": "keyword.operator.nst"},
+        "6": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "< test078~module >",
+      "match": "(<)\\s+([^\\s]+)\\s+(>)",
+      "captures": {
+        "1": {"name": "support.type.nst"},
+        "2": {"name": "variable.other.structural.nst"},
+        "3": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "( #0#  ~PythonGlobalsVar )",
+      "match": "(\\()\\s+(#\\d+#)\\s+([^\\s]+)\\s+(\\))",
+      "captures": {
+        "1": {"name": "support.type.nst"},
+        "2": {"name": "variable.other.structural.nst"},
+        "3": {"name": "variable.other.structural.nst"},
+        "4": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "operand",
+      "match": "(:)(\\.|>|<|!|~|==|<=|>=|!=|=|is|\\+\\+|--|\\+|-|&\\*|\\*|/|&|\\||\\^|%|<<|>>|>>>|`)(:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"},
+        "2": {"name": "support.type.nst"},
+        "3": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "column",
+      "match": "(#)(\\d+)(#)",
+      "captures": {
+        "1": {"name": "variable.other.structural.nst"},
+        "2": {"name": "variable.other.structural.nst"},
+        "3": {"name": "variable.other.structural.nst"}
+      }
+    },
+    {
+      "comment": "temp variables",
+      "match": "(~t~(res~)?\\d+)",
+      "captures": {
+        "1": {"name": "variable.other.structural.nst"}
+      }
+    },
+    {
+      "comment": "string literal",
+      "match": "(\".*?\")",
+      "captures": {
+        "1": {"name": "string.quoted.double.single-line.nst"}
+      }
+    },
+    {
+      "comment": "string literal",
+      "match": "('.*?')",
+      "captures": {
+        "1": {"name": "string.quoted.double.single-line.nst"}
+      }
+    },
+    {
+      "comment": "burgers",
+      "match": "(\\(\\))",
+      "captures": {
+        "1": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "exceptions",
+      "match": "(__(try|eh|catch|finally__.*)__\\d+)",
+      "captures": {
+        "1": {"name": "variable.other.structural.nst"},
+        "2": {"name": "variable.other.structural.nst"}
+      }
+    },
+    {
+      "comment": "function pointer call",
+      "match": "(-(~|-)?>)\\s+(\\()\\s+(#\\d+#)\\s+([^\\s]+)\\s+(\\))\\s*(\\()",
+      "captures": {
+        "1": {"name": "meta.function-call.nst"},
+        "2": {"name": "meta.function-call.nst"},
+        "3": {"name": "keyword.operator.nst"},
+        "4": {"name": "variable.other.structural.nst"},
+        "5": {"name": "variable.other.structural.nst"},
+        "6": {"name": "keyword.operator.nst"},
+        "7": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "function call",
+      "match": "(-(~|-)?>)\\s+([a-zA-Z-_~0-9.]*)\\s*(\\()",
+      "captures": {
+        "1": {"name": "meta.function-call.nst"},
+        "2": {"name": "meta.function-call.nst"},
+        "3": {"name": "meta.function-call.nst"},
+        "4": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "special function call",
+      "match": "~function\\s+(\\()",
+      "captures": {
+        "1": {"name": "support.type.nst"}
+      }
+    },
+    {
+      "comment": "function call end",
+      "match": "(\\))\\s+;",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "colon",
+      "match": "(\\{|\\}|,|:)",
+      "captures": {
+        "1": {"name": "keyword.operator.nst"}
+      }
+    },
+    {
+      "comment": "brackets",
+      "match": "(\\(|\\)|\\[|\\]|>|<)",
+      "captures": {
+        "1": {"name": "support.type.nst"}
+      }
+    }
+
+
+  ],
+  "uuid": "0c84615b-ed7c-4fcd-827d-8a4fde83053c"
+}

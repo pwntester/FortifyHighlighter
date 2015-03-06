@@ -1,0 +1,268 @@
+{ "name": "Fortify Definition",
+  "scopeName": "source.definition",
+  "fileTypes": ["definition"],
+  "patterns": [
+    {
+        "include": "#comment"
+    },
+    {
+        "comment": "foreach",
+        "begin": "\\s+(foreach)\\s+([A-Za-z0-9_-]+)\\s*{",
+        "beginCaptures": {
+            "1": { "name": "text" },
+            "2": { "name": "entity.other.attribute-name" }
+        },
+        "end" : "}",
+        "patterns": [
+            {
+                "include": "#characterization"
+            }
+        ]
+    },
+    {
+        "include": "#characterization"
+    },
+    {
+        "comment": "taintflags",
+        "match": "([\\+-])([A-Z_-]+)",
+        "captures": {
+            "1": {"name": "constant"},
+            "2": {"name": "variable.other.structural"}
+        }
+    },
+    {
+        "comment": "Old start State definitions",
+        "match": "(state)\\s+(start)\\s+([A-Za-z0-9_-]+)\\s*;",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "string"},
+            "4": {"name": "text"}
+        }
+    },
+    {
+        "comment": "Old start State definitions with description",
+        "match": "(state)\\s+(start)\\s+([A-Za-z0-9_-]+)\\s*[:]\\s*\"(.*)\"",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "string"},
+            "3": {"name": "text"},
+            "4": {"name": "string"}
+        }
+    },
+    {
+        "comment": "Old error State definitions",
+        "match": "(state)\\s+(error)\\s+([A-Za-z0-9_-]+)\\s*;",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "constant"},
+            "3": {"name": "text"}
+        }
+    },
+    {
+        "comment": "Old error State definitions with description",
+        "match": "(state)\\s+(error)\\s+([A-Za-z0-9_-]+)\\s*[:]\\s*\"(.*)\"",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "constant"},
+            "3": {"name": "text"},
+            "4": {"name": "string"}
+        }
+    },
+    {
+        "comment": "State definitions",
+        "match": "(state)\\s+([A-Za-z0-9_-]+)\\s*(\\((start)\\))?\\s*;",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "text"},
+            "4": {"name": "string"}
+        }
+    },
+    {
+        "comment": "State definitions",
+        "match": "(state)\\s+([A-Za-z0-9_-]+)\\s*(\\((error)\\))?\\s*;",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "text"},
+            "4": {"name": "constant"}
+        }
+    },
+    {
+        "comment": "State definitions with description",
+        "match": "(state)\\s+([A-Za-z0-9_-]+)\\s*(\\((start)\\))?\\s*[:]\\s*\"(.*)\"",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "text"},
+            "4": {"name": "string"},
+            "5": {"name": "string"}
+        }
+    },
+    {
+        "comment": "State definitions with description",
+        "match": "(state)\\s+([A-Za-z0-9_-]+)\\s*(\\((error)\\))?\\s*[:]\\s*\"(.*)\"",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "text"},
+            "4": {"name": "constant"},
+            "5": {"name": "string"}
+        }
+    },
+    {
+        "comment": "Variable declaration",
+        "match": "(var)\\s+([A-Za-z0-9_-]+)\\s*;",
+        "captures": {
+            "1": {"name": "support.type.structural"},
+            "2": {"name": "entity.other.attribute-name"}
+        }
+    },
+    {
+        "comment": "Transitions",
+        "match": "([A-Za-z0-9_-]+)\\s+(->)\\s+([A-Za-z0-9_-]+)\\s*",
+        "captures": {
+            "1": {"name": "text"},
+            "2": {"name": "entity.other.attribute-name"},
+            "3": {"name": "text"}
+        }
+    },
+    {
+        "comment": "Transitions rules",
+        "begin": "{",
+        "end" : "}",
+        "patterns": [
+            {
+                "comment": "variables outside functions and features",
+                "match": "([A-Za-z0-9_-]+)[.\\s]",
+                "captures": {
+                    "1": {"name": "entity.other.attribute-name"}
+                }
+            },
+            {
+                "comment": "functions",
+                "begin": "\\$([A-Za-z0-9_-]+)\\s*\\(",
+                "beginCaptures": {
+                    "1": { "name": "support.type.structural" }
+                },
+                "end" : "\\)",
+                "contentName": "source.definition.transition",
+                "patterns": [
+                    {
+                        "include": "#functionbody"
+                    }
+                ]
+            },
+            {
+                "comment": "language featuress",
+                "begin": "[#@]([A-Za-z0-9_-]+)\\(",
+                "beginCaptures": {
+                    "1": { "name": "constant" }
+                },
+                "end" : "\\)",
+                "contentName": "source.definition.transition",
+                "patterns": [
+                    {
+                        "include": "#functionbody"
+                    }
+                ]
+            }
+        ]
+    }
+  ],
+  "repository": {
+    "functionbody": {
+        "name": "source.definition.functionbody",
+        "patterns": [
+            {
+                "comment": "string1",
+                "begin": "\"",
+                "end" : "\"",
+                "contentName": "string",
+                "patterns": [
+                    {
+                      "include": "string"
+                    }
+                ]
+            },
+            {
+                "comment": "string2",
+                "begin": "'",
+                "end" : "'",
+                "contentName": "string",
+                "patterns": [
+                    {
+                      "include": "string"
+                    }
+                ]
+            },
+            {
+                "comment": "keywords",
+                "match": "(null|false|true|0|1|\\.\\.\\.|\\?)",
+                "captures": {
+                    "1": {"name": "text"}
+                }
+            },
+            {
+                "comment": "variables",
+                "match": "([A-Za-z0-9_-]+)",
+                "captures": {
+                    "1": {"name": "entity.other.attribute-name"}
+                }
+            }
+        ]
+    },
+    "characterization": {
+        "comment": "characterization properties",
+        "begin": "\\s+(Calls(Returns)?|Label|TaintSource|TaintWrite|TaintEntrypoint|TaintSink|TaintCleanse|TaintTransfer)(Function)?\\s*\\(",
+        "beginCaptures": {
+            "1": { "name": "support.type.structural" }
+        },
+        "end" : "\\)",
+        "patterns": [
+            {
+                "comment": "sinks",
+                "begin": "\\[",
+                "end" : "\\]",
+                "patterns": [
+                    {
+                        "match": "([A-Z_]+)",
+                        "name": "variable.other.structural"
+                    }
+                ]
+            },
+            {
+                "comment": "sources",
+                "begin": "{",
+                "end" : "}",
+                "patterns": [
+                    {
+                        "comment": "taintflags",
+                        "match": "([\\+-])([A-Z_-]+)",
+                        "captures": {
+                            "1": {"name": "constant"},
+                            "2": {"name": "variable.other.structural"}
+                        }
+                    }
+                ]
+            },
+            {
+                "comment": "variables",
+                "match": "([A-Za-z0-9_-]+)",
+                "captures": {
+                    "1": {"name": "entity.other.attribute-name"}
+                }
+            }
+
+        ]
+    },
+    "comment": {
+        "begin": "/\\*",
+        "end": "\\*/",
+        "name": "comment",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "comment"
+            }
+        ]
+    }
+  },
+  "uuid": "0c84615b-ed7c-4fcd-827d-8a4fde83053c"
+}

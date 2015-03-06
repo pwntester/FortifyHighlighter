@@ -1,0 +1,677 @@
+{ "name": "Fortify RulePack",
+  "scopeName": "text.xml.rulepack",
+  "fileTypes": ["xml"],
+  "patterns": [
+      { "comment": "RulePack Description",
+        "begin": "<(Description|Name)>(\\s*)?(\\n*)?(\\s*)?(<!\\[CDATA\\[)?(\\n*)?",
+        "beginCaptures": {
+            "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" },
+            "5": { "name": "string.unquoted.cdata.xml" }
+         },
+        "end" : "(\\n*)?(\\s*)?(\\]\\]>)?(\\s*\\n*\\s*)</(Description|Name)>",
+        "endCaptures": {
+            "3": { "name": "string.unquoted.cdata.xml" },
+            "5": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+         },
+        "contentName": "constant"
+      },
+      { "comment": "Commented Rule",
+        "name": "comment.rule.rulepack",
+        "begin": "(?i)(<!--[A-Z]+(Rule|Transition)\\s+)",
+        "end": "(?i)(</[A-Z]+(Rule|Transition)-->)"
+      },
+
+      { "comment": "Rule",
+        "name": "text.xml.rule.rulepack",
+        "begin": "(?i)<([A-Z]+(Rule|Transition))\\s+",
+        "beginCaptures": {
+            "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+         },
+         "patterns": [
+            { "comment": "Rule Attributes",
+              "name": "text.xml.formatversion.rule.rulepack",
+              "match": "(?i)(formatversion|language)(=){1}\"([^\\s>]+)\"",
+              "captures": {
+                "1": { "name": "entity.other.attribute-name"},
+                "2": { "name": "constant"},
+                "3": { "name": "string"}
+              }
+            },
+            { "comment": "RuleID Tag",
+              "begin": "<(RuleID)>",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "</(RuleID)>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "contentName": "text.xml.ruleID.rule.rulepack",
+              "patterns": [
+                { "comment": "tags",
+                  "begin": "<(Dominant|Subordinate)>",
+                  "beginCaptures": {
+                      "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                   },
+                  "end" : "</(Dominant|Subordinate)>",
+                  "endCaptures": {
+                      "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                   },
+                  "contentName": "text.xml.ruleID.rule.rulepack",
+                  "patterns": [
+                    { "comment": "Pattern in ResultFilterRule",
+                      "begin": "<(Pattern)>",
+                      "beginCaptures": {
+                          "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                       },
+                      "end" : "</(Pattern)>",
+                      "endCaptures": {
+                          "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                       },
+                      "patterns": [
+                        {
+                          "name": "keyword",
+                          "match": "[-|]+"
+                        },
+                        {
+                          "name": "string.xml.ruleIDbit.rulepack",
+                          "match": "[a-zA-Z0-9]+"
+                        }
+                      ]
+                    },
+                    { "comment": "Value tag in ResultFilterRule",
+                      "begin": "<(Value)>",
+                      "beginCaptures": {
+                          "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                       },
+                      "end" : "</(Value)>",
+                      "endCaptures": {
+                          "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                       },
+                      "patterns": [
+                        {
+                          "name": "keyword",
+                          "match": "[-|]+"
+                        },
+                        {
+                          "name": "string.xml.ruleIDbit.rulepack",
+                          "match": "[a-zA-Z0-9]+"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "keyword",
+                  "match": "[-]+"
+                },
+                {
+                  "name": "string.xml.ruleIDbit.rulepack",
+                  "match": "[a-zA-Z0-9]+"
+                }
+              ]
+            },
+            { "comment": "Group",
+              "begin": "<(Group)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(Group)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Group Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(name)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Description",
+              "begin": "<(Description)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "(/|Description)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Description Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(ref)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "FunctionIdentifier",
+              "begin": "<(Function(Call)?Identifier)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "(/|Function(Call)?Identifier)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "FunctionIdentifier Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(id)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "ApplyTo",
+              "begin": "<(ApplyTo)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(ApplyTo)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "ApplyTo Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(implements|extends|overrides)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Conditional isType and ConstantMatches",
+              "begin": "<(IsType|ConstantMatches)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : ">",
+              "patterns": [
+                { "comment": "Conditional subtags",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(argument)(=){1}\"([^\\s>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Conditional subtags",
+              "begin": "<(Constant(Eq|Gt|Lt)|IsConstant)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(Constant(Eq|Gt|Lt)|IsConstant)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Conditional subtags",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(argument|value)(=){1}\"([^\\s>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Pattern",
+              "begin": "<(Pattern)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(Pattern)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Pattern Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(caseInsensitive)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                },
+                {
+                  "include": "source.regexp"
+                }
+              ]
+            },
+            { "comment": "ValueMatch in Config Rules",
+              "begin": "<(ValueMatch)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : ">",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               }
+            },
+            { "comment": "ValueMatch in Config Rules",
+              "begin": "</(ValueMatch)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : ">",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               }
+            },
+            { "comment": "ValueArg in Map Rules",
+              "begin": "<(ValueArg)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(ValueArg)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Value Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(caseInsensitive)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "ValuesArg in Map Rules",
+              "begin": "<(ValuesArg)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(ValuesArg)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Value Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(caseInsensitive)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Empty Value",
+              "begin": "<(Value)/",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : ">",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Value Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(caseInsensitive)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "Value with attributes",
+              "begin": "<(Value)[^s]",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(Value)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "Value Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(caseInsensitive)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "TaintFlagSet",
+              "begin": "<(TaintFlagSet)",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(TaintFlagSet)?>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "patterns": [
+                { "comment": "TaintFlagSet Attributes",
+                  "name": "text.xml.attribute.rule.rulepack",
+                  "match": "(?i)(taintFlag)(=){1}\"([^\\s/>]+)\"",
+                  "captures": {
+                    "1": { "name": "entity.other.attribute-name"},
+                    "2": { "name": "constant"},
+                    "3": { "name": "string"}
+                  }
+                }
+              ]
+            },
+            { "comment": "in-rule Script",
+              "begin": "<((CallGraph)?Script)>(\\s*)?(\\n*)?(\\s*)?(<!\\[CDATA\\[)?(\\n*)?",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" },
+                  "5": { "name": "string.unquoted.cdata.xml" }
+               },
+              "end" : "(\\n*)?(\\s*)?(\\]\\]>)?(\\s*\\n*\\s*)</((CallGraph)?Script)>",
+              "endCaptures": {
+                  "3": { "name": "string.unquoted.cdata.xml" },
+                  "5": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "contentName": "source.js.rulepack",
+              "patterns": [
+                { "include": "source.js" }
+              ]
+            },
+            { "comment": "TaintFlags",
+              "begin": "<(TaintFlags)>",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "end" : "/(TaintFlags)>",
+              "endCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "contentName": "text.xml.taintFlags.rule.rulepack",
+              "patterns": [
+                {
+                  "name": "string",
+                  "match": "\\s+,+\\s+"
+                },
+                {
+                  "name": "text.xml.taintFlag.rule.rulepack",
+                  "match": "([+-]{1})([_a-zA-Z]+)",
+                  "captures": {
+                      "1": { "name": "contant" },
+                      "2": { "name": "entity.other.attribute-name" }
+                  }
+                }
+              ]
+            },
+            { "comment": "Notes",
+              "name": "text.xml.notes.rule.rulepack",
+              "begin": "<(Notes)>(<!\\[CDATA\\[)?(\\n*)?",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" },
+                  "2": { "name": "string.unquoted.cdata.xml" }
+               },
+               "patterns": [
+                  { "name": "text.xml.notes.rule.rulepack",
+                    "match": "."
+                  }
+               ],
+               "end": "(\\n*)?(\\]\\]>)?</(Notes)>",
+               "endCaptures": {
+                  "2": { "name": "string.unquoted.cdata.xml" },
+                  "3": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+                }
+            },
+            { "comment": "Structural Language Blocks",
+              "begin": "<(StructuralMatch|Predicate)>(\\s*)?(\\n*)?(\\s*)?(<!\\[CDATA\\[)?(\\n*)?",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" },
+                  "5": { "name": "string.unquoted.cdata.xml" }
+               },
+              "end" : "(\\n*)?(\\s*)?(\\]\\]>)?(\\s*\\n*\\s*)</(StructuralMatch|Predicate)>",
+              "endCaptures": {
+                "3": { "name": "string.unquoted.cdata.xml" },
+                "5": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "contentName": "source.structural.rulepack",
+              "patterns": [
+                { "include": "source.structural"}
+              ]
+            },
+            { "comment": "Definition Blocks",
+              "begin": "<(Definition)>(\\s*)?(\\n*)?(\\s*)?(<!\\[CDATA\\[)?(\\n*)?",
+              "beginCaptures": {
+                  "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" },
+                  "5": { "name": "string.unquoted.cdata.xml" }
+               },
+              "end" : "(\\n*)?(\\s*)?(\\]\\]>)?(\\s*\\n*\\s*)</(Definition)>",
+              "endCaptures": {
+                "3": { "name": "string.unquoted.cdata.xml" },
+                "5": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+               },
+              "contentName": "source.definition.rulepack",
+              "patterns": [
+                { "include": "source.definition"}
+              ]
+            },
+            { "include": "text.xml"}
+         ],
+         "end": "(?i)</([A-Z]+(Rule|Transition))>",
+         "endCaptures": {
+            "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+          }
+      },
+          { "comment": "ScriptDefinition",
+            "begin": "<(Script) ",
+            "beginCaptures": {
+                "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+             },
+            "end" : "(Script)>",
+            "endCaptures": {
+                "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+             },
+            "patterns": [
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(formatVersion)(=){1}\"([^\\s>]+)\"\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+                }
+              },
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(type)(=){1}([^\\s>]+)\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+
+                }
+              },
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(name)(=){1}([^\\s>]+)\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+                }
+              },
+              { "begin": "(>)\\n*",
+                "end" : "\\n*\\s*(</)",
+
+                "patterns": [
+                  { "begin": "(<!\\[CDATA\\[)",
+                    "end": "(]]>)",
+                    "beginCaptures": {
+                      "1": { "name": "string.unquoted.cdata.xml" }
+                    },
+                    "endCaptures": {
+                      "1": { "name": "string.unquoted.cdata.xml" }
+                    },
+                    "contentName": "source.js.rulepack source.js",
+                    "patterns": [
+                      {
+                        "include": "source.js"
+                      }
+                    ]
+                  }
+                ]
+              }
+
+
+            ]
+          },
+      { "comment": "ScriptDefinitions",
+        "begin": "<(ScriptDefinitions)>",
+        "beginCaptures": {
+            "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+         },
+        "end" : "</(ScriptDefinitions)>",
+        "endCaptures": {
+            "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+         },
+        "patterns": [
+          { "comment": "ScriptDefinition",
+            "begin": "<(Script(Definition)?)",
+            "beginCaptures": {
+                "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+             },
+            "end" : "(Script(Definition)?)>",
+            "endCaptures": {
+                "1": { "name": "entity.name.tag.localname.xml meta.tag.xml" }
+             },
+            "patterns": [
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(formatVersion)(=){1}\"([^\\s>]+)\"\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+                }
+              },
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(type)(=){1}([^\\s>]+)\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+
+                }
+              },
+              { "name": "text.xml.attributes.script.rulepack",
+                "match": "(?i)(name)(=){1}([^\\s>]+)\\s*.*?",
+                "captures": {
+                  "1": { "name": "entity.other.attribute-name"},
+                  "2": { "name": "constant"},
+                  "3": { "name": "string"},
+                  "4": { "name": "constant"}
+                }
+              },
+              { "begin": "(>)\\n*",
+                "end" : "\\n*\\s*(</)",
+
+                "patterns": [
+                  { "begin": "(<!\\[CDATA\\[)",
+                    "end": "(]]>)",
+                    "beginCaptures": {
+                      "1": { "name": "string.unquoted.cdata.xml" }
+                    },
+                    "endCaptures": {
+                      "1": { "name": "string.unquoted.cdata.xml" }
+                    },
+                    "contentName": "source.js.rulepack source.js",
+                    "patterns": [
+                      {
+                        "include": "source.js"
+                      }
+                    ]
+                  }
+                ]
+              }
+
+
+            ]
+          },
+
+          { "include": "source.js" }
+        ],
+        "comment": "ScriptDefinitions"
+
+      },
+      { "include": "text.xml"}
+  ],
+  "repository": {
+    "keyword": {
+        "match": "matches|is|contains|not|and|>|<|!",
+        "name": "keyword.structural"
+    },
+    "doublequotedString": {
+        "begin": "\"",
+        "beginCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.begin.structural"
+            }
+        },
+        "end": "\"",
+        "endCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.end.structural"
+            }
+        },
+        "name": "string.quoted.double.structural",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "string"
+            }
+        ]
+    },
+    "singlequotedString": {
+        "begin": "'",
+        "beginCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.begin.structural"
+            }
+        },
+        "end": "'",
+        "endCaptures": {
+            "0": {
+                "name": "punctuation.definition.string.end.structural"
+            }
+        },
+        "name": "string.quoted.single.structural",
+        "patterns": [
+            {
+                "match": ".",
+                "name" : "string"
+            }
+        ]
+    }
+  },
+  "uuid": "D0DDBCDD-3464-4B54-A6FD-A79D72759323"
+}
