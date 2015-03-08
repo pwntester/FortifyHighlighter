@@ -24,7 +24,7 @@ NOTES
 *  The Syntax files are improved for [Cobalt2 Theme](https://github.com/wesbos/cobalt2)
 *  If Sytax is not automatically enabled, use command palette `ctrl-shift-p` then `Set Syntax: Fortify xxxx`
 
-Contribute
+CONTRIBUTE
 ====
 
 Submit patches to the .JSON-tmLanguage files, not the xml files which are generated from them.
